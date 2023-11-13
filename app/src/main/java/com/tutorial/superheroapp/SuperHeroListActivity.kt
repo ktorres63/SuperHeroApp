@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutorial.superheroapp.databinding.ActivitySuperHeroListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +18,7 @@ class SuperHeroListActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySuperHeroListBinding
     private lateinit var retrofit: Retrofit
 
-
+    private lateinit var adapter: SuperHeroAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySuperHeroListBinding.inflate(layoutInflater)
@@ -37,20 +39,35 @@ class SuperHeroListActivity : AppCompatActivity() {
             override fun onQueryTextChange(newText: String?) = false
 
         })
+        adapter = SuperHeroAdapter()
+        binding.rvSuperHero.setHasFixedSize(true)
+        binding.rvSuperHero.layoutManager = LinearLayoutManager(this)
+        binding.rvSuperHero.adapter = adapter
+
     }
 
     private fun searchByName(query: String) {
+        binding.progressBar.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
-            val myResponse: Response<SuperHeroDataResponse> = retrofit.create(ApiService::class.java).getSuperheroes(query)
-            if(myResponse.isSuccessful){
+            val myResponse: Response<SuperHeroDataResponse> =
+                retrofit.create(ApiService::class.java).getSuperheroes(query)
+
+            if (myResponse.isSuccessful) {
                 Log.i("APP", "it works :)")
-            }
-            else{
+                val response: SuperHeroDataResponse? = myResponse.body()
+                if (response != null) {
+                    Log.i("APP", response.toString())
+                    runOnUiThread{
+                        binding.progressBar.isVisible = false
+                        adapter.updateList(response.superheroes)
+
+                    }
+                }
+
+            } else {
                 Log.i("APP", "it doesn't works :c")
             }
         }
-
-
 
 
     }
