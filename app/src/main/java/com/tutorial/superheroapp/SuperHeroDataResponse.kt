@@ -9,5 +9,8 @@ data class SuperHeroDataResponse(
 
 data class SuperHeroesItemResponse(
     @SerializedName("id") val superheroId: String,
-    @SerializedName("name") val name:String
+    @SerializedName("name") val name:String,
+    @SerializedName("image") val superHeroImage:SuperheroImageResponse
 )
+
+data class SuperheroImageResponse(@SerializedName("url") val url:String)
