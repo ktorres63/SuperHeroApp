@@ -5,7 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailSuperHeroActivity">
-    
-    <
+
+    <ImageView
+        android:id="@+id/ivSuperHero"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="22dp"
+        android:layout_marginTop="235dp"
+        app:cardBackgroundColor="@color/purple_200"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
